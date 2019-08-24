@@ -70,6 +70,14 @@ fonts:
  normal: "Arial"
  bold: "Arial Bold"
  italic: "Arial Italic"
+models:
+  User:
+    node_attributes:
+      style: filled
+      fillcolor: red
+  Widget:
+    node_attributes:
+      fontsize: 20
 ```
 
 Auto generation

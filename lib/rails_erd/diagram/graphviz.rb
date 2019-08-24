@@ -95,6 +95,11 @@ module RailsERD
         def entity_style(entity, attributes)
           {}.tap do |options|
             options[:fontcolor] = options[:color] = :grey60 if entity.virtual?
+            options.merge!(
+              RailsERD.options.fetch(:models, {})
+                              .fetch(entity.name.to_s, {})
+                              .fetch('node_attributes', {})
+            )
           end
         end
 
