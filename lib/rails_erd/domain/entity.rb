@@ -92,6 +92,10 @@ module RailsERD
         @children ||= domain.specializations_by_entity_name(name).map(&:specialized)
       end
 
+      def cluster_name
+        cluster_name_from_config_file || namespace
+      end
+
       def namespace
         $1 if name.match(/(.*)::.*/)
       end
@@ -102,6 +106,14 @@ module RailsERD
 
       def <=>(other) # @private :nodoc:
         self.name <=> other.name
+      end
+
+      private
+
+      def cluster_name_from_config_file
+        RailsERD.options.fetch(:models, {})
+                        .fetch(self.name.to_s, {})
+                        .fetch('cluster_name', nil)
       end
     end
   end

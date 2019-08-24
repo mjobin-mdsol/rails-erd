@@ -224,9 +224,13 @@ module RailsERD
       end
 
       each_entity do |entity, attributes|
-        if options[:cluster] && entity.namespace
-          cluster_name = "cluster_#{entity.namespace}"
-          cluster_options = CLUSTER_ATTRIBUTES.merge(label: entity.namespace)
+        if options[:cluster] && entity.cluster_name.present?
+          cluster_name = "cluster_#{entity.cluster_name}"
+          cluster_options =
+            CLUSTER_ATTRIBUTES
+              .merge(label: entity.cluster_name)
+              .merge(cluster_options_from_config_file(entity.cluster_name))
+
           cluster = graph.get_graph(cluster_name) ||
                     graph.add_graph(cluster_name, cluster_options)
 
@@ -321,6 +325,12 @@ module RailsERD
         else
           ERB.new(template_text, nil, "<>")
         end
+      end
+
+      def cluster_options_from_config_file(cluster_name)
+        RailsERD.options.fetch(:clusters, {})
+                        .fetch(cluster_name, {})
+                        .fetch('attributes')
       end
     end
   end

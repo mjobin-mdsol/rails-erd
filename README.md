@@ -72,12 +72,22 @@ fonts:
  italic: "Arial Italic"
 models:
   User:
+    cluster_name: People
     node_attributes:
       style: filled
       fillcolor: red
   Widget:
+    cluster_name: Things
     node_attributes:
       fontsize: 20
+clusters
+  People:
+    attributes:
+      style: dotted
+      bgcolor: purple
+  Things:
+    attributes:
+      label: Thingz
 ```
 
 Auto generation
