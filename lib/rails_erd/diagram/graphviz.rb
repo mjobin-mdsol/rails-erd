@@ -330,7 +330,13 @@ module RailsERD
       def cluster_options_from_config_file(cluster_name)
         RailsERD.options.fetch(:clusters, {})
                         .fetch(cluster_name, {})
-                        .fetch('attributes')
+                        .fetch('attributes') || {}
+      rescue KeyError
+        #raise KeyError,
+        puts "missing attributes for cluster #{cluster_name}"
+        return {}
+      rescue NoMethodError
+        raise "invalid .erdconfig syntax"
       end
     end
   end
